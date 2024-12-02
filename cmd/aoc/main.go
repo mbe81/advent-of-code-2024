@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/mbe81/advent-of-code-2024/days/day01"
+	"github.com/mbe81/advent-of-code-2024/days/day02"
 )
 
 func main() {
@@ -23,5 +24,7 @@ func main() {
 	switch *day {
 	case 1:
 		day01.Run(*part, *filename)
+	case 2:
+		day02.Run(*part, *filename)
 	}
 }
