@@ -16,9 +16,7 @@ func part1(input []string) {
 		instructions := instructionPattern.FindAllString(command, -1)
 
 		for _, instruction := range instructions {
-			multipliersRaw := strings.Replace(instruction[4:len(instruction)-1], ",", " ", 1)
-			multipliers := convert.LineToInts(multipliersRaw)
-			result += multipliers[0] * multipliers[1]
+			result += multiplyInstr(instruction)
 		}
 	}
 
@@ -43,12 +41,16 @@ func part2(input []string) {
 				continue
 			}
 			if enabled {
-				multipliersRaw := strings.Replace(instruction[4:len(instruction)-1], ",", " ", 1)
-				multipliers := convert.LineToInts(multipliersRaw)
-				result += multipliers[0] * multipliers[1]
+				result += multiplyInstr(instruction)
 			}
 		}
 	}
 
 	fmt.Println("Result Day 3, Part 2:", result)
+}
+
+func multiplyInstr(instruction string) int {
+	multipliersRaw := strings.Replace(instruction[4:len(instruction)-1], ",", " ", 1)
+	multipliers := convert.LineToInts(multipliersRaw)
+	return multipliers[0] * multipliers[1]
 }
