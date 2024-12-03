@@ -4,7 +4,7 @@ Repository to store my solutions (in Go) for the Advent of Code puzzles for 2024
 
 Use the following command to run the puzzles:
 
-    go run ./cmd/run -day=1 -part=1 -input=input.txt
+    go run ./cmd/aoc -day=1 -part=1 -input=input.txt
 
 The `part` flag and `input` flag are optional:
 
