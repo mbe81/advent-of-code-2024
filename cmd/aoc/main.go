@@ -7,6 +7,7 @@ import (
 	"github.com/mbe81/advent-of-code-2024/days/day01"
 	"github.com/mbe81/advent-of-code-2024/days/day02"
 	"github.com/mbe81/advent-of-code-2024/days/day03"
+	"github.com/mbe81/advent-of-code-2024/days/day04"
 )
 
 func main() {
@@ -29,5 +30,7 @@ func main() {
 		day02.Run(*part, *filename)
 	case 3:
 		day03.Run(*part, *filename)
+	case 4:
+		day04.Run(*part, *filename)
 	}
 }
