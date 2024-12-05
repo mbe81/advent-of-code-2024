@@ -2,6 +2,7 @@ package day02
 
 import (
 	"fmt"
+	"slices"
 
 	"github.com/mbe81/advent-of-code-2024/lib/calc"
 	"github.com/mbe81/advent-of-code-2024/lib/convert"
@@ -10,8 +11,8 @@ import (
 func part1(input []string) {
 	var safeReports int
 	for i := range input {
-		levels := convert.LineToInts(input[i], nil)
-		if validateReport(levels) {
+		report := convert.LineToInts(input[i], nil)
+		if validateReport(report) {
 			safeReports++
 		}
 	}
@@ -22,17 +23,14 @@ func part1(input []string) {
 func part2(input []string) {
 	var safeReports int
 	for i := range input {
-		levels := convert.LineToInts(input[i], nil)
-		if validateReport(levels) {
+		report := convert.LineToInts(input[i], nil)
+		if validateReport(report) {
 			safeReports++
 			continue
 		}
-		for j := 0; j < len(levels); j++ {
-			adjustedLevels := make([]int, 0, len(levels)-1)
-			adjustedLevels = append(adjustedLevels, levels[:j]...)
-			adjustedLevels = append(adjustedLevels, levels[j+1:]...)
-
-			if validateReport(adjustedLevels) {
+		for j := 0; j < len(report); j++ {
+			adjustedReport := slices.Concat(report[:j], report[j+1:])
+			if validateReport(adjustedReport) {
 				safeReports++
 				break
 			}
