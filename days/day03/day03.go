@@ -51,6 +51,6 @@ func part2(input []string) {
 
 func multiplyInstr(instruction string) int {
 	multipliersRaw := strings.Replace(instruction[4:len(instruction)-1], ",", " ", 1)
-	multipliers := convert.LineToInts(multipliersRaw)
+	multipliers := convert.LineToInts(multipliersRaw, nil)
 	return multipliers[0] * multipliers[1]
 }

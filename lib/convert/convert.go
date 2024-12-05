@@ -15,10 +15,18 @@ func StringToInt(s string) int {
 }
 
 // LineToInts converts a line to multiple numbers. Panics if the conversion fails.
-func LineToInts(line string) []int {
+func LineToInts(line string, separator *string) []int {
 	var numbers []int
-	for _, n := range strings.Fields(line) {
-		numbers = append(numbers, StringToInt(n))
+	if separator != nil {
+		for _, n := range strings.Split(line, *separator) {
+			numbers = append(numbers, StringToInt(n))
+		}
+		return numbers
+	} else {
+
+		for _, n := range strings.Fields(line) {
+			numbers = append(numbers, StringToInt(n))
+		}
+		return numbers
 	}
-	return numbers
 }

@@ -10,7 +10,7 @@ import (
 func part1(input []string) {
 	var safeReports int
 	for i := range input {
-		levels := convert.LineToInts(input[i])
+		levels := convert.LineToInts(input[i], nil)
 		if validateReport(levels) {
 			safeReports++
 		}
@@ -22,7 +22,7 @@ func part1(input []string) {
 func part2(input []string) {
 	var safeReports int
 	for i := range input {
-		levels := convert.LineToInts(input[i])
+		levels := convert.LineToInts(input[i], nil)
 		if validateReport(levels) {
 			safeReports++
 			continue

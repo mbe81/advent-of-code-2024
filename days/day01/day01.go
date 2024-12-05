@@ -11,7 +11,7 @@ import (
 func part1(input []string) {
 	left, right := make([]int, len(input)), make([]int, len(input))
 	for i := range input {
-		numbers := convert.LineToInts(input[i])
+		numbers := convert.LineToInts(input[i], nil)
 		left[i] = numbers[0]
 		right[i] = numbers[1]
 	}
@@ -30,7 +30,7 @@ func part1(input []string) {
 func part2(input []string) {
 	left, right := make([]int, len(input)), make([]int, len(input))
 	for i := range input {
-		numbers := convert.LineToInts(input[i])
+		numbers := convert.LineToInts(input[i], nil)
 		left[i] = numbers[0]
 		right[i] = numbers[1]
 	}
