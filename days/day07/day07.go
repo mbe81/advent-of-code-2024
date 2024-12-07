@@ -2,7 +2,7 @@ package day07
 
 import (
 	"fmt"
-	"strconv"
+	"math"
 	"strings"
 	"time"
 
@@ -92,9 +92,14 @@ func calculateValue(numbers []int, operators string, testValue int) int {
 		case '*':
 			result *= numbers[i]
 		case '|':
-			result = convert.StringToInt(strconv.Itoa(result) + strconv.Itoa(numbers[i]))
+			result = concatenateNumbers(result, numbers[i])
 		}
 	}
 
 	return result
+}
+
+func concatenateNumbers(a, b int) int {
+	digits := int(math.Log10(float64(b)) + 1)
+	return a*int(math.Pow10(digits)) + b
 }
