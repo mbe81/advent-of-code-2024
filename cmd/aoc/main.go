@@ -10,6 +10,7 @@ import (
 	"github.com/mbe81/advent-of-code-2024/days/day04"
 	"github.com/mbe81/advent-of-code-2024/days/day05"
 	"github.com/mbe81/advent-of-code-2024/days/day06"
+	"github.com/mbe81/advent-of-code-2024/days/day07"
 )
 
 func main() {
@@ -38,6 +39,8 @@ func main() {
 		day05.Run(*part, *filename)
 	case 6:
 		day06.Run(*part, *filename)
+	case 7:
+		day07.Run(*part, *filename)
 	default:
 		fmt.Println("Invalid day. Please select a day between 1 and 5.")
 	}
