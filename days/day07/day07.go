@@ -53,13 +53,11 @@ func part2(input []string) {
 
 func parseInput(input []string) ([]int, [][]int) {
 	results, numbers := make([]int, len(input)), make([][]int, len(input))
-
 	for y := range input {
 		parts := strings.Split(input[y], ":")
 		results[y] = convert.StringToInt(parts[0])
 		numbers[y] = convert.LineToInts(parts[1], nil)
 	}
-
 	return results, numbers
 }
 
@@ -70,7 +68,6 @@ func generateOperators(operators []string, length int) []string {
 
 	subOperators := generateOperators(operators, length-1)
 	var result []string
-
 	for i := range operators {
 		for j := range subOperators {
 			result = append(result, operators[i]+subOperators[j])
@@ -81,7 +78,6 @@ func generateOperators(operators []string, length int) []string {
 
 func calculateValue(numbers []int, operators string, testValue int) int {
 	result := numbers[0]
-
 	for i := 1; i < len(numbers); i++ {
 		if result > testValue {
 			return -1
@@ -95,7 +91,6 @@ func calculateValue(numbers []int, operators string, testValue int) int {
 			result = concatenateNumbers(result, numbers[i])
 		}
 	}
-
 	return result
 }
 
