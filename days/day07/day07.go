@@ -2,7 +2,6 @@ package day07
 
 import (
 	"fmt"
-	"math"
 	"strings"
 	"time"
 
@@ -95,6 +94,8 @@ func calculateValue(numbers []int, operators string, testValue int) int {
 }
 
 func concatenateNumbers(a, b int) int {
-	digits := int(math.Log10(float64(b)) + 1)
-	return a*int(math.Pow10(digits)) + b
+	for b := b; b > 0; b /= 10 {
+		a *= 10
+	}
+	return a + b
 }
