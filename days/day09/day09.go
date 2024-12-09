@@ -45,25 +45,21 @@ func parseInput(diskMap string) []int {
 }
 
 func compactPart1(blocks []int) []int {
-	var blockMoved bool
+	var nextPosition int
 	for i := len(blocks) - 1; i > 0; i-- {
-		blockMoved = false
-		for j := 0; j < i; j++ {
+		for j := nextPosition; j < i; j++ {
 			if blocks[j] == -1 {
 				blocks[j], blocks[i] = blocks[i], blocks[j]
-				blockMoved = true
+				nextPosition = j
 				break
 			}
-		}
-		if !blockMoved {
-			break
 		}
 	}
 	return blocks
 }
 
 func compactPart2(blocks []int) []int {
-	var freePosition int
+	var nextPosition, freeSizedPosition int
 	for i := len(blocks) - 1; i > 0; i-- {
 		if blocks[i] == -1 {
 			continue
@@ -75,24 +71,29 @@ func compactPart2(blocks []int) []int {
 			}
 			length++
 		}
-		freePosition = -1
-		for j := 0; j < i; j++ {
+		freeSizedPosition = -1
+		firstFreePosition := -1
+		for j := nextPosition; j < i; j++ {
 			if blocks[j] == -1 {
-				freePosition = j
+				if firstFreePosition == -1 {
+					firstFreePosition = j
+				}
+				freeSizedPosition = j
 				for k := 1; k < length; k++ {
 					if blocks[j+k] != -1 {
-						freePosition = -1
+						freeSizedPosition = -1
 						continue
 					}
 				}
-				if freePosition > 0 {
+				if freeSizedPosition > 0 {
+					nextPosition = firstFreePosition
 					break
 				}
 			}
 		}
-		if freePosition > 0 {
+		if freeSizedPosition > 0 {
 			for k := 0; k < length; k++ {
-				blocks[freePosition+k], blocks[i-k] = blocks[i-k], blocks[freePosition+k]
+				blocks[freeSizedPosition+k], blocks[i-k] = blocks[i-k], blocks[freeSizedPosition+k]
 			}
 		}
 		i = i - length + 1
