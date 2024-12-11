@@ -23,7 +23,7 @@ func part1(input []string) {
 		}
 	}
 
-	fmt.Println("Result day 9, part 1:", totalScore, "- duration:", time.Since(t))
+	fmt.Println("Result day 10, part 1:", totalScore, "- duration:", time.Since(t))
 }
 
 func part2(input []string) {
@@ -44,7 +44,7 @@ func part2(input []string) {
 		}
 	}
 
-	fmt.Println("Result day 9, part 2:", totalScore, "- duration:", time.Since(t))
+	fmt.Println("Result day 10, part 2:", totalScore, "- duration:", time.Since(t))
 }
 
 func parseGrid(input []string) [][]int {
