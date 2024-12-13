@@ -5,15 +5,6 @@ import (
 	"time"
 )
 
-var separator = " "
-
-const (
-	LEFT   = 1
-	RIGHT  = 2
-	TOP    = 4
-	BOTTOM = 8
-)
-
 func part1(input []string) {
 	t := time.Now()
 
