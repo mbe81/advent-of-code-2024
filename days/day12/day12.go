@@ -130,9 +130,8 @@ func isCorner(input []string, y, x, dirY, dirX, maxY, maxX int) bool {
 		(!withinBoundaries(y, x+dirX, maxY, maxX) || input[y][x+dirX] != input[y][x]) {
 		return true // Outer corner
 	}
-	if (withinBoundaries(y+dirY, x, maxY, maxX) && input[y+dirY][x] == input[y][x]) &&
-		(withinBoundaries(y, x+dirX, maxY, maxX) && input[y][x+dirX] == input[y][x]) &&
-		(withinBoundaries(y+dirY, x+dirX, maxY, maxX) && input[y+dirY][x+dirX] != input[y][x]) {
+	if withinBoundaries(y+dirY, x+dirX, maxY, maxX) && input[y+dirY][x+dirX] != input[y][x] &&
+		input[y+dirY][x] == input[y][x] && input[y][x+dirX] == input[y][x] {
 		return true // Inner corner
 	}
 	return false
