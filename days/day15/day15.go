@@ -29,6 +29,7 @@ func part1(input []string) {
 }
 
 func parseInput(input []string, exploded bool) ([][]uint8, string) {
+
 	grid := make([][]uint8, 0)
 	for y, _ := range input {
 		if input[y] == "" {
@@ -36,11 +37,7 @@ func parseInput(input []string, exploded bool) ([][]uint8, string) {
 		}
 		if exploded {
 			grid = append(grid, make([]uint8, len(input[y])*2))
-		} else {
-			grid = append(grid, make([]uint8, len(input[y])))
-		}
-		for x := range input[y] {
-			if exploded {
+			for x := range input[y] {
 				if input[y][x] == '#' || input[y][x] == '.' {
 					grid[y][x*2], grid[y][x*2+1] = input[y][x], input[y][x]
 				} else if input[y][x] == 'O' {
@@ -48,7 +45,10 @@ func parseInput(input []string, exploded bool) ([][]uint8, string) {
 				} else if input[y][x] == '@' {
 					grid[y][x*2], grid[y][x*2+1] = '@', '.'
 				}
-			} else {
+			}
+		} else {
+			grid = append(grid, make([]uint8, len(input[y])))
+			for x := range input[y] {
 				grid[y][x] = input[y][x]
 			}
 		}
@@ -72,39 +72,6 @@ func findRobot(grid [][]uint8) (int, int) {
 	return -1, -1
 }
 
-func moveRobot(grid [][]uint8, x, y int, move uint8) ([][]uint8, int, int) {
-	var dirX, dirY int
-	switch move {
-	case '^':
-		dirX, dirY = 0, -1
-	case 'v':
-		dirX, dirY = 0, 1
-	case '<':
-		dirX, dirY = -1, 0
-	case '>':
-		dirX, dirY = 1, 0
-	}
-
-	checkX, checkY := x, y
-	for {
-		checkX, checkY = checkX+dirX, checkY+dirY
-		if grid[checkY][checkX] == '#' {
-			return grid, x, y
-		}
-		if grid[checkY][checkX] == '.' {
-			break
-		}
-	}
-
-	for checkX != x || checkY != y {
-		grid[checkY][checkX] = grid[checkY-dirY][checkX-dirX]
-		checkX, checkY = checkX-dirX, checkY-dirY
-	}
-	grid[y][x] = '.'
-
-	return grid, x + dirX, y + dirY
-}
-
 func part2(input []string) {
 	t := time.Now()
 
@@ -112,7 +79,7 @@ func part2(input []string) {
 
 	x, y := findRobot(grid)
 	for _, move := range moves {
-		grid, x, y = moveRobotPart2(grid, x, y, uint8(move))
+		grid, x, y = moveRobot(grid, x, y, uint8(move))
 	}
 
 	totalSum := 0
@@ -133,25 +100,62 @@ type block struct {
 
 var boxes map[block]bool
 
-func moveRobotPart2(grid [][]uint8, x, y int, move uint8) ([][]uint8, int, int) {
+func moveRobot(grid [][]uint8, x, y int, move uint8) ([][]uint8, int, int) {
 	if move == '<' || move == '>' {
-		return moveRobot(grid, x, y, move)
+		return moveHorizontal(grid, x, y, move)
+	} else if move == '^' || move == 'v' {
+		return moveVertical(grid, x, y, move)
 	}
+	return grid, x, y
+}
+
+func moveHorizontal(grid [][]uint8, x, y int, move uint8) ([][]uint8, int, int) {
+	var dirX int
+	if move == '<' {
+		dirX = -1
+	} else if move == '>' {
+		dirX = 1
+	}
+
+	checkX := x
+	for {
+		checkX = checkX + dirX
+		if grid[y][checkX] == '#' {
+			return grid, x, y
+		}
+		if grid[y][checkX] == '.' {
+			break
+		}
+	}
+
+	for checkX != x {
+		grid[y][checkX] = grid[y][checkX-dirX]
+		checkX = checkX - dirX
+	}
+	grid[y][x] = '.'
+
+	return grid, x + dirX, y
+}
+
+func moveVertical(grid [][]uint8, x, y int, move uint8) ([][]uint8, int, int) {
 	var dirY int
 	if move == '^' {
 		dirY = -1
-	} else {
+	} else if move == 'v' {
 		dirY = 1
 	}
 
 	if grid[y+dirY][x] == '#' {
 		return grid, x, y
 	}
+
 	if grid[y+dirY][x] == '.' {
-		return moveRobot(grid, x, y, move)
+		grid[y+dirY][x] = grid[y][x]
+		grid[y][x] = '.'
+		return grid, x, y + dirY
 	}
 
-	boxes = make(map[block]bool, 0)
+	boxes = make(map[block]bool)
 
 	if !allowMove(grid, x, y+dirY, dirY) {
 		return grid, x, y
@@ -169,26 +173,21 @@ func moveRobotPart2(grid [][]uint8, x, y int, move uint8) ([][]uint8, int, int) 
 		maxY = max(maxY, box.y)
 	}
 
+	var checkY, endY int
 	if dirY == -1 {
-		for boxY := minY; boxY <= maxY; boxY++ {
-			for box := range boxes {
-				if box.y == boxY {
-					grid[boxY+dirY][box.x] = grid[boxY][box.x]
-					grid[boxY][box.x] = '.'
-				}
-			}
-		}
+		checkY, endY = minY, maxY
+	} else if dirY == 1 {
+		checkY, endY = maxY, minY
 	}
 
-	if dirY == 1 {
-		for boxY := maxY; boxY >= minY; boxY-- {
-			for box := range boxes {
-				if box.y == boxY {
-					grid[boxY+dirY][box.x] = grid[boxY][box.x]
-					grid[boxY][box.x] = '.'
-				}
+	for checkY != endY-dirY {
+		for box := range boxes {
+			if box.y == checkY {
+				grid[checkY+dirY][box.x] = grid[checkY][box.x]
+				grid[checkY][box.x] = '.'
 			}
 		}
+		checkY -= dirY
 	}
 
 	grid[y+dirY][x] = '@'
@@ -198,38 +197,38 @@ func moveRobotPart2(grid [][]uint8, x, y int, move uint8) ([][]uint8, int, int) 
 }
 
 func allowMove(grid [][]uint8, x, y, dirY int) bool {
-
 	if grid[y+dirY][x] == '#' {
 		return false
 	}
-
 	if grid[y+dirY][x] == '.' {
 		boxes[block{x, y}] = true
 		return true
 	}
 
+	if grid[y+dirY][x] == 'O' {
+		allow := allowMove(grid, x, y+dirY, dirY)
+		if allow {
+			boxes[block{x, y}] = true
+		}
+		return allow
+	}
+
 	if grid[y+dirY][x] == '[' {
-		var left, right bool
-		left = allowMove(grid, x, y+dirY, dirY)
-		right = allowMove(grid, x+1, y+dirY, dirY)
-
+		left := allowMove(grid, x, y+dirY, dirY)
+		right := allowMove(grid, x+1, y+dirY, dirY)
 		if left && right {
 			boxes[block{x, y}] = true
 		}
 		return left && right
 	}
-
 	if grid[y+dirY][x] == ']' {
-		var left, right bool
-		left = allowMove(grid, x-1, y+dirY, dirY)
-		right = allowMove(grid, x, y+dirY, dirY)
-
+		left := allowMove(grid, x-1, y+dirY, dirY)
+		right := allowMove(grid, x, y+dirY, dirY)
 		if left && right {
 			boxes[block{x, y}] = true
 		}
 		return left && right
 	}
-
 	return false
 }
 
