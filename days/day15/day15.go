@@ -34,13 +34,11 @@ func parseInput(input []string, exploded bool) ([][]uint8, string) {
 		if input[y] == "" {
 			break
 		}
-
 		if exploded {
 			grid = append(grid, make([]uint8, len(input[y])*2))
 		} else {
 			grid = append(grid, make([]uint8, len(input[y])))
 		}
-
 		for x := range input[y] {
 			if exploded {
 				if input[y][x] == '#' || input[y][x] == '.' {
@@ -55,6 +53,7 @@ func parseInput(input []string, exploded bool) ([][]uint8, string) {
 			}
 		}
 	}
+
 	var moves string
 	for y := len(grid) + 1; y < len(input); y++ {
 		moves += input[y]
@@ -166,12 +165,8 @@ func moveRobotPart2(grid [][]uint8, x, y int, move uint8) ([][]uint8, int, int) 
 
 	var minY, maxY = math.MaxInt, 0
 	for box := range boxes {
-		if box.y < minY {
-			minY = box.y
-		}
-		if box.y > maxY {
-			maxY = box.y
-		}
+		minY = min(minY, box.y)
+		maxY = max(maxY, box.y)
 	}
 
 	if dirY == -1 {
@@ -219,9 +214,7 @@ func allowMove(grid [][]uint8, x, y, dirY int) bool {
 		right = allowMove(grid, x+1, y+dirY, dirY)
 
 		if left && right {
-			if grid[y][x] != ',' {
-				boxes[block{x, y}] = true
-			}
+			boxes[block{x, y}] = true
 		}
 		return left && right
 	}
@@ -232,9 +225,7 @@ func allowMove(grid [][]uint8, x, y, dirY int) bool {
 		right = allowMove(grid, x, y+dirY, dirY)
 
 		if left && right {
-			if grid[y][x-1] != ',' {
-				boxes[block{x, y}] = true
-			}
+			boxes[block{x, y}] = true
 		}
 		return left && right
 	}
