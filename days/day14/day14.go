@@ -66,7 +66,6 @@ func part2(input []string) {
 		}
 	}
 
-	//printRobots(robots, maxX, maxY)
 	fmt.Println("Result day 14, part 2:", seconds, "- duration:", time.Since(t))
 }
 
