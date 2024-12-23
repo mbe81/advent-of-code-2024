@@ -71,6 +71,8 @@ func main() {
 		day19.Run(*part, *filename)
 	case 22:
 		day22.Run(*part, *filename)
+	case 23:
+		day23.Run(*part, *filename)
 	default:
 		fmt.Println("Invalid day. Please select a day between 1 and 25.")
 	}
