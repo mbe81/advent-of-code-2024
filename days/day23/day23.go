@@ -51,7 +51,7 @@ func part1(input []string) {
 		}
 	}
 
-	fmt.Println("Result day 22, part 1:", count, "- duration:", time.Since(t))
+	fmt.Println("Result day 23, part 1:", count, "- duration:", time.Since(t))
 }
 
 func part2(input []string) {
@@ -94,7 +94,7 @@ func part2(input []string) {
 	}
 	sort.Strings(longestClique)
 
-	fmt.Println("Result day 22, part 2:", "'"+strings.Join(longestClique, ",")+"'", "- duration:", time.Since(t))
+	fmt.Println("Result day 23, part 2:", "'"+strings.Join(longestClique, ",")+"'", "- duration:", time.Since(t))
 }
 
 var cliques = make([][]string, 0)
