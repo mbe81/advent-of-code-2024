@@ -19,6 +19,7 @@ import (
 	"github.com/mbe81/advent-of-code-2024/days/day13"
 	"github.com/mbe81/advent-of-code-2024/days/day14"
 	"github.com/mbe81/advent-of-code-2024/days/day15"
+	"github.com/mbe81/advent-of-code-2024/days/day17"
 	"github.com/mbe81/advent-of-code-2024/days/day18"
 	"github.com/mbe81/advent-of-code-2024/days/day19"
 	"github.com/mbe81/advent-of-code-2024/days/day22"
@@ -71,6 +72,8 @@ func main() {
 		day14.Run(*part, *filename)
 	case 15:
 		day15.Run(*part, *filename)
+	case 17:
+		day17.Run(*part, *filename)
 	case 18:
 		day18.Run(*part, *filename)
 	case 19:
